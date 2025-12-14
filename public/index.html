@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000000">
+  <title>iMouse 2.0 - Mac Remote Control</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/trackpad.css">
+  <link rel="stylesheet" href="css/launcher.css">
+  <link rel="stylesheet" href="css/keyboard.css">
+  <link rel="stylesheet" href="css/presentation.css">
+</head>
+<body>
+
+  <!-- トップバー -->
+  <header class="top-bar">
+    <div class="shortcuts">
+      <button class="shortcut-btn" data-shortcut="cmd+c">⌘C</button>
+      <button class="shortcut-btn" data-shortcut="cmd+v">⌘V</button>
+      <button class="shortcut-btn" data-shortcut="cmd+z">⌘Z</button>
+      <button class="shortcut-btn" data-shortcut="cmd+t">⌘T</button>
+    </div>
+    <button class="settings-btn" id="settingsBtn">⚙️</button>
+  </header>
+
+  <!-- メインコンテンツエリア -->
+  <main class="main-content">
+
+    <!-- トラックパッドエリア -->
+    <div class="trackpad-area" id="trackpad">
+      <div class="status-indicator" id="statusIndicator">
+        <span class="status-dot"></span>
+        <span class="status-text">Connecting...</span>
+      </div>
+      <div class="shortcut-dock">
+        <button class="macro-btn shortcut-btn" data-shortcut="control+left" data-gesture="desktopLeft">
+          <span class="macro-icon">⬅️</span>
+        </button>
+        <button class="macro-btn shortcut-btn" data-shortcut="control+up" data-gesture="missionControl">
+          <span class="macro-icon">🚀</span>
+        </button>
+        <button class="macro-btn shortcut-btn" data-shortcut="control+right" data-gesture="desktopRight">
+          <span class="macro-icon">➡️</span>
+        </button>
+      </div>
+      <div class="gesture-feedback" id="gestureFeedback"></div>
+      <div class="scroll-strip" id="scrollStrip">
+        <span class="scroll-arrow">▲</span>
+        <span class="scroll-arrow">▼</span>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="mouse-buttons">
+    <button class="mouse-btn left" id="leftClickBtn"></button>
+    <button class="mouse-btn right" id="rightClickBtn"></button>
+  </div>
+
+  <!-- フッターナビゲーション -->
+  <footer class="footer-nav">
+    <button class="nav-btn active" data-mode="trackpad" title="Trackpad">
+      <span class="nav-icon">🖱️</span>
+      <span class="nav-label">Trackpad</span>
+    </button>
+    <button class="nav-btn" data-mode="keyboard" title="Keyboard">
+      <span class="nav-icon">⌨️</span>
+      <span class="nav-label">Keyboard</span>
+    </button>
+    <button class="nav-btn" data-mode="launcher" title="Apps">
+      <span class="nav-icon">📱</span>
+      <span class="nav-label">Apps</span>
+    </button>
+    <button class="nav-btn" data-mode="presentation" title="Present">
+      <span class="nav-icon">🎬</span>
+      <span class="nav-label">Present</span>
+    </button>
+  </footer>
+
+  <!-- スライドアップパネル -->
+  <div class="slide-panel" id="slidePanel">
+
+    <!-- アプリランチャーパネル -->
+    <div class="panel-content launcher-panel" data-panel="launcher">
+      <div class="panel-header">
+        <h2>📱 App Launcher</h2>
+        <button class="panel-close">✕</button>
+      </div>
+
+      <div class="app-search">
+        <input type="text" id="appSearch" placeholder="🔍 Search apps...">
+      </div>
+
+      <div class="app-grid" id="appGrid">
+        <!-- アプリボタンが動的に生成される -->
+      </div>
+
+      <div class="recent-apps">
+        <h3>Recently Used</h3>
+        <div class="recent-app-list" id="recentAppList">
+          <!-- 最近使用したアプリ -->
+        </div>
+      </div>
+
+      <button class="customize-btn" id="customizeApps">✏️ Customize Apps</button>
+    </div>
+
+    <!-- キーボードパネル -->
+    <div class="panel-content keyboard-panel" data-panel="keyboard">
+      <div class="panel-header">
+        <h2>⌨️ Remote Keyboard</h2>
+        <button class="panel-close">✕</button>
+      </div>
+
+      <div class="input-area">
+        <textarea id="keyboardInput" placeholder="Type here..." rows="4"></textarea>
+        <div class="input-controls">
+          <button class="lang-toggle" id="langToggle">🌐 EN</button>
+          <button class="send-btn" id="sendText">Send</button>
+        </div>
+      </div>
+
+      <div class="modifier-keys">
+        <button class="modifier-btn" data-key="command">⌘</button>
+        <button class="modifier-btn" data-key="option">⌥</button>
+        <button class="modifier-btn" data-key="control">⌃</button>
+        <button class="modifier-btn" data-key="shift">⇧</button>
+      </div>
+
+      <div class="quick-actions">
+        <button class="action-btn" data-action="enter">↵ Enter</button>
+        <button class="action-btn" data-action="tab">⇥ Tab</button>
+        <button class="action-btn" data-action="esc">⎋ Esc</button>
+        <button class="action-btn" data-action="delete">⌫ Delete</button>
+      </div>
+
+      <div class="input-mode">
+        <label>
+          <input type="radio" name="inputMode" value="buffered" checked>
+          <span>Buffered (Send manually)</span>
+        </label>
+        <label>
+          <input type="radio" name="inputMode" value="realtime">
+          <span>Real-time (Type directly)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- プレゼンテーションパネル -->
+    <div class="panel-content presentation-panel" data-panel="presentation">
+      <div class="panel-header">
+        <h2>🎬 Presentation Mode</h2>
+        <button class="panel-close">✕</button>
+      </div>
+
+      <div class="slide-controls">
+        <button class="slide-btn" data-action="prev">
+          <span class="icon">←</span>
+          <span class="label">Previous</span>
+        </button>
+
+        <div class="slide-counter">
+          <span id="currentSlide">1</span> / <span id="totalSlides">--</span>
+        </div>
+
+        <button class="slide-btn" data-action="next">
+          <span class="label">Next</span>
+          <span class="icon">→</span>
+        </button>
+      </div>
+
+      <div class="presentation-timer">
+        <div class="timer-display">
+          <span id="timerMinutes">00</span>:<span id="timerSeconds">00</span>
+        </div>
+        <div class="timer-controls">
+          <button class="timer-btn" data-action="start">▶️</button>
+          <button class="timer-btn" data-action="pause">⏸️</button>
+          <button class="timer-btn" data-action="reset">🔄</button>
+        </div>
+      </div>
+
+      <div class="presentation-tools">
+        <button class="tool-btn" data-action="black">⬛ Black Screen</button>
+        <button class="tool-btn" data-action="white">⬜ White Screen</button>
+        <button class="tool-btn" data-action="notes">📝 Notes</button>
+      </div>
+
+      <div class="gesture-guide">
+        <h3>Gestures</h3>
+        <ul>
+          <li>👆 Swipe Left → Previous Slide</li>
+          <li>👆 Swipe Right → Next Slide</li>
+          <li>👆 Tap → Advance Slide</li>
+          <li>👆 2-Finger Tap → Black Screen</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="app-customize-modal" id="appCustomizeModal">
+    <div class="app-customize-content">
+      <div class="app-customize-header">
+        <h3>Customize Apps</h3>
+        <button id="closeCustomizeModal">✕</button>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">
+        Edit icons, add Mac apps or website shortcuts. Changes sync with your device.
+      </p>
+      <div class="app-list-editor" id="appListEditor"></div>
+      <button class="add-app-btn" id="addAppBtn">+ Add App</button>
+      <button class="save-apps-btn" id="saveAppsBtn">Save Changes</button>
+    </div>
+  </div>
+
+  <!-- 設定画面（モーダル） -->
+  <div class="settings-modal" id="settingsModal">
+    <div class="settings-container">
+      <header class="settings-header">
+        <h2>⚙️ Settings</h2>
+        <button class="close-btn" id="closeSettings">✕</button>
+      </header>
+
+      <div class="settings-content">
+
+        <!-- 接続設定 -->
+        <section class="settings-section">
+          <h3>🔗 Connection</h3>
+          <div class="setting-item">
+            <label>Mac IP Address</label>
+            <input type="text" id="macIp" placeholder="192.168.x.x">
+          </div>
+          <div class="setting-item">
+            <label>Port</label>
+            <input type="number" id="macPort" value="8080" placeholder="8080">
+          </div>
+          <div class="setting-item">
+            <label>Connection Status</label>
+            <span class="status-badge" id="connectionStatus">⚠️ Disconnected</span>
+          </div>
+          <button class="connect-btn" id="connectBtn">Connect</button>
+        </section>
+
+        <!-- カーソル設定 -->
+        <section class="settings-section">
+          <h3>🖱️ Cursor</h3>
+
+          <div class="setting-item">
+            <label>Cursor Speed <span class="value-display" id="cursorSpeedValue">5</span></label>
+            <input type="range" min="1" max="10" value="5" id="cursorSpeed">
+          </div>
+
+          <div class="setting-item">
+            <label>Cursor Acceleration</label>
+            <select id="cursorAccel">
+              <option value="off">OFF</option>
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+        </section>
+
+        <!-- スクロール設定 -->
+        <section class="settings-section">
+          <h3>📜 Scroll</h3>
+
+          <div class="setting-item">
+            <label>Scroll Speed <span class="value-display" id="scrollSpeedValue">5</span></label>
+            <input type="range" min="1" max="10" value="5" id="scrollSpeed">
+          </div>
+
+          <div class="setting-item">
+            <label>Scroll Acceleration</label>
+            <select id="scrollAccel">
+              <option value="off">OFF</option>
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+
+          <div class="setting-item">
+            <label>
+              <span>Inertia Scrolling</span>
+              <label class="switch">
+                <input type="checkbox" id="inertiaScroll" checked>
+                <span class="slider-switch"></span>
+              </label>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label>
+              <span>Natural Scroll Direction</span>
+              <label class="switch">
+                <input type="checkbox" id="naturalScroll" checked>
+                <span class="slider-switch"></span>
+              </label>
+            </label>
+          </div>
+        </section>
+
+        <!-- ジェスチャー設定 -->
+        <section class="settings-section">
+          <h3>👆 Gestures</h3>
+
+          <div class="setting-item">
+            <label>Tap Sensitivity <span class="value-display" id="tapSensitivityValue">5</span></label>
+            <input type="range" min="1" max="10" value="5" id="tapSensitivity">
+          </div>
+
+          <div class="setting-item">
+            <label>Swipe Threshold <span class="value-display" id="swipeThresholdValue">5</span></label>
+            <input type="range" min="1" max="10" value="5" id="swipeThreshold">
+          </div>
+        </section>
+
+        <!-- 振動設定 -->
+        <section class="settings-section">
+          <h3>📳 Haptic Feedback</h3>
+
+          <div class="setting-item">
+            <label>
+              <span>Enable Haptics</span>
+              <label class="switch">
+                <input type="checkbox" id="enableHaptics" checked>
+                <span class="slider-switch"></span>
+              </label>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label>Haptic Strength <span class="value-display" id="hapticStrengthValue">5</span></label>
+            <input type="range" min="1" max="10" value="5" id="hapticStrength">
+          </div>
+        </section>
+
+        <!-- リセット -->
+        <section class="settings-section">
+          <button class="reset-btn" id="resetSettings">🔄 Reset to Default</button>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/websocket.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/trackpad.js"></script>
+  <script src="js/launcher.js"></script>
+  <script src="js/keyboard.js"></script>
+  <script src="js/presentation.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    // Service Worker 登録
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('Service Worker registered'))
+        .catch(err => console.error('Service Worker registration failed', err));
+    }
+  </script>
+
+</body>
+</html>

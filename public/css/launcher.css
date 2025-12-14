@@ -1,0 +1,417 @@
+/* ========================================
+   iMouse 2.0 - アプリランチャースタイル
+   ======================================== */
+
+.panel-content.launcher-panel {
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 20px;
+}
+
+.panel-content.active.launcher-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.app-search {
+  margin-bottom: 20px;
+}
+
+.app-search input {
+  width: 100%;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+}
+
+.app-search input::placeholder {
+  color: var(--text-secondary);
+}
+
+.app-search input:focus {
+  border-color: var(--accent-blue);
+}
+
+/* アプリグリッド */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.app-btn {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 90px;
+}
+
+.app-btn:active {
+  transform: scale(0.95);
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+
+.app-icon {
+  font-size: 32px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 122, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.app-icon.has-image {
+  background: transparent;
+  padding: 0;
+}
+
+.app-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.app-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: center;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+.app-btn.empty {
+  border-style: dashed;
+  opacity: 0.5;
+}
+
+.app-btn.empty .app-icon {
+  background: transparent;
+  font-size: 24px;
+}
+
+.app-grid .empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 20px 10px;
+}
+
+/* 最近使用したアプリ */
+.recent-apps {
+  margin-bottom: 10px;
+}
+
+.recent-apps h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-secondary);
+}
+
+.recent-app-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recent-app-item {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.recent-app-item:active {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  transform: scale(0.98);
+}
+
+.recent-app-icon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 122, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.recent-app-icon.has-image {
+  background: transparent;
+}
+
+.recent-app-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recent-app-name {
+  font-size: 15px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.recent-app-time {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* カスタマイズボタン */
+.customize-btn {
+  width: 100%;
+  background: transparent;
+  border: 2px dashed var(--border-color);
+  color: var(--text-secondary);
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.customize-btn:active {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  background: rgba(0, 122, 255, 0.05);
+}
+
+/* アプリカスタマイズモーダル */
+.app-customize-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-customize-modal.active {
+  display: flex;
+}
+
+.app-customize-content {
+  background: var(--bg-secondary);
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  border-radius: 20px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.app-customize-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.app-customize-header h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.app-customize-header button {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.app-list-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.app-item {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.drag-handle {
+  cursor: grab;
+  font-size: 18px;
+  color: var(--text-secondary);
+}
+
+.app-item.dragging .drag-handle {
+  cursor: grabbing;
+}
+
+.app-item input {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 14px;
+  flex: 1;
+}
+
+.app-item input[type="text"] {
+  flex: 1;
+}
+
+.app-item select {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.app-icon-preview {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border: 1px dashed var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.app-icon-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.icon-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-upload-btn,
+.remove-icon-btn {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.icon-upload-btn:active,
+.remove-icon-btn:active {
+  transform: scale(0.97);
+}
+
+.app-url-input {
+  width: 100%;
+}
+
+.app-item .hidden {
+  display: none !important;
+}
+
+.remove-btn {
+  background: var(--accent-red);
+  border: none;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.remove-btn:active {
+  transform: scale(0.9);
+}
+
+.add-app-btn {
+  width: 100%;
+  background: var(--accent-blue);
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-app-btn:active {
+  transform: scale(0.98);
+  opacity: 0.8;
+}
+
+.save-apps-btn {
+  width: 100%;
+  background: transparent;
+  border: 2px solid var(--accent-blue);
+  color: var(--accent-blue);
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.save-apps-btn:active {
+  transform: scale(0.98);
+}
+
+/* 空の状態 */
+.recent-app-list:empty::before {
+  content: 'No recent apps';
+  display: block;
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 20px;
+  font-size: 14px;
+}

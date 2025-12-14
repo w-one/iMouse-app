@@ -1,0 +1,306 @@
+/* ========================================
+   iMouse 2.0 - プレゼンテーションモードスタイル
+   ======================================== */
+
+.panel-content.active.presentation-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* スライドコントロール */
+.slide-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+  background: var(--bg-tertiary);
+  padding: 15px;
+  border-radius: 16px;
+}
+
+.slide-btn {
+  background: var(--accent-blue);
+  border: none;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 140px;
+  min-width: 120px;
+}
+
+.slide-btn:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+.slide-btn .icon {
+  font-size: 18px;
+}
+
+.slide-counter {
+  background: var(--bg-primary);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  min-width: 90px;
+  border: 1px solid var(--border-color);
+  flex: 0 0 auto;
+}
+
+#currentSlide {
+  color: var(--accent-blue);
+}
+
+/* タイマー */
+.presentation-timer {
+  background: var(--bg-tertiary);
+  padding: 15px;
+  border-radius: 16px;
+}
+
+.timer-display {
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-green);
+  margin-bottom: 15px;
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+}
+
+.timer-display.warning {
+  color: var(--accent-red);
+  animation: timer-pulse 1s infinite;
+}
+
+@keyframes timer-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.timer-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.timer-btn {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.timer-btn:active {
+  transform: scale(0.95);
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+
+.timer-btn[data-action="start"] {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+}
+
+.timer-btn[data-action="reset"] {
+  background: var(--accent-red);
+  border-color: var(--accent-red);
+}
+
+/* プレゼンツール */
+.presentation-tools {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+.tool-btn {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 14px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.tool-btn:active {
+  transform: scale(0.95);
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+
+.tool-btn.active {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+
+/* ジェスチャーガイド */
+.gesture-guide {
+  background: var(--bg-tertiary);
+  padding: 15px;
+  border-radius: 16px;
+}
+
+.gesture-guide h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--accent-blue);
+}
+
+.gesture-guide ul {
+  list-style: none;
+}
+
+.gesture-guide li {
+  padding: 8px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.gesture-guide li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 480px) {
+  .timer-display {
+    font-size: 38px;
+  }
+
+  .slide-controls {
+    padding: 12px;
+  }
+
+  .slide-btn {
+    padding: 12px;
+    font-size: 13px;
+  }
+}
+
+/* ノート表示 */
+.presentation-notes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.presentation-notes.active {
+  display: flex;
+}
+
+.notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.notes-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.notes-content {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg-secondary);
+  padding: 20px;
+  border-radius: 16px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* スライドプレビュー */
+.slide-preview {
+  background: var(--bg-tertiary);
+  padding: 15px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.slide-preview img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.slide-preview .preview-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* フルスクリーンオーバーレイ（Black/White Screen） */
+.screen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen-overlay.active {
+  display: flex;
+}
+
+.screen-overlay.black {
+  background: #000000;
+}
+
+.screen-overlay.white {
+  background: #ffffff;
+}
+
+.screen-overlay-message {
+  font-size: 24px;
+  font-weight: 700;
+  opacity: 0.3;
+}
+
+.screen-overlay.black .screen-overlay-message {
+  color: white;
+}
+
+.screen-overlay.white .screen-overlay-message {
+  color: black;
+}
