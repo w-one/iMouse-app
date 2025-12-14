@@ -1,0 +1,20 @@
+{
+  "port": 8080,
+  "host": "0.0.0.0",
+  "cursor": {
+    "speedMultiplier": 1.0,
+    "accelerationCurve": "medium"
+  },
+  "scroll": {
+    "speedMultiplier": 1.0,
+    "invertNatural": true
+  },
+  "security": {
+    "allowedOrigins": ["*"],
+    "maxConnections": 5
+  },
+  "logging": {
+    "enabled": true,
+    "verbose": false
+  }
+}
